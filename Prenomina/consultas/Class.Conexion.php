@@ -54,12 +54,8 @@ class ConexionSRV
  public $consulta2="";
 
  public function ConexionSRV()
- {
-   if(isset($_SESSION['DB'])){
-     $this->conexionInfo = array("Database" => $_SESSION['DB'], "UID" => S_DB_USER, "PWD" => S_DB_PASS, "CharacterSet" => "UTF-8");
-   }else {
+ {   
      $this->conexionInfo = array("Database" => S_DB_NOMBRE, "UID" => S_DB_USER, "PWD" => S_DB_PASS, "CharacterSet" => "UTF-8");
-   }
  }
 
  public function conectarBD()
@@ -73,7 +69,22 @@ class ConexionSRV
 
  public function consultaBD($sentenciaSQL)
  {
+
    $this->consulta = sqlsrv_query($this->enlace, $sentenciaSQL);
+   if($this->consulta === false || empty($this->consulta))
+   {
+     if(($errors = sqlsrv_errors()) != null)
+     {
+      foreach($errors as $error){
+        echo "SQLSTATE: ".$error['SQLSTATE'];
+        echo "<br>";
+        echo "CODIGO: ".$error['code'];
+        echo "<br>";
+        echo "MENSAJE: ".$error['message'];
+      }  
+     }
+    
+   }
  }
 
  public function consultaBD2($sentenciaSQL){

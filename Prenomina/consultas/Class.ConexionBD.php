@@ -11,11 +11,9 @@ $conn = sqlsrv_connect($serverName, $connectionInfo);*/
 
 function constructS()
 {
-  if(isset($_SESSION['DB'])){
-    $conexionInfo = array("Database" => $_SESSION['DB'], "UID" => S_DB_USER, "PWD" => S_DB_PASS);
-  }else {
-    $conexionInfo = array("Database" => S_DB_NOMBRE, "UID" => S_DB_USER, "PWD" => S_DB_PASS);
-  }
+  
+   $conexionInfo = array("Database" => S_DB_NOMBRE, "UID" => S_DB_USER, "PWD" => S_DB_PASS);
+  
 
   $conn = sqlsrv_connect(S_DB_SERVER, $conexionInfo);
   if($conn){

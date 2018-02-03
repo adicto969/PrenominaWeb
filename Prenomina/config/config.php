@@ -24,7 +24,7 @@ define('Unidad', 'C:\\apsisistemas\\ARCHIVOS\\');
 define('HTML_DIR', 'html/');
 define('TITULO_PAGINA', 'PRENOMINA');
 define('FECHA_MODIFICACION', 'Ultima Actualización : 11/06/2017');
-define('URL_PAGINA', 'http://localhost:8080/solmar/PrenominaCabos - sql/');
+define('URL_PAGINA', 'http://localhost:8080/GitHub/Solmar/Prenomina/');
 
 define('Autoriza1', 'sudo');
 define('Autoriza2', 'Nominas');
