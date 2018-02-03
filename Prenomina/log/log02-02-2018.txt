@@ -1,0 +1,4 @@
+:::::::::::::::::::::::CONSULTA BD:::::::::::::::::::::::
+[02/02/2018 10:36:44 PM] SQLSTATE: 42000
+[02/02/2018 10:36:44 PM] CODIGO: 201
+[02/02/2018 10:36:44 PM] MENSAJE: [Microsoft][ODBC Driver 11 for SQL Server][SQL Server]El procedimiento o la función 'reporte_checadas_excel_ctro' esperaba el parámetro '@pagina', que no se ha especificado.

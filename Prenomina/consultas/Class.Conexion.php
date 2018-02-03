@@ -69,22 +69,28 @@ class ConexionSRV
 
  public function consultaBD($sentenciaSQL)
  {
+    $this->consulta = sqlsrv_query($this->enlace, $sentenciaSQL);
 
-   $this->consulta = sqlsrv_query($this->enlace, $sentenciaSQL);
-   if($this->consulta === false || empty($this->consulta))
-   {
-     if(($errors = sqlsrv_errors()) != null)
-     {
-      foreach($errors as $error){
-        echo "SQLSTATE: ".$error['SQLSTATE'];
-        echo "<br>";
-        echo "CODIGO: ".$error['code'];
-        echo "<br>";
-        echo "MENSAJE: ".$error['message'];
-      }  
-     }
-    
-   }
+    if($this->consulta === false || empty($this->consulta))
+    {
+      if(($errors = sqlsrv_errors()) != null)
+      {
+
+        $file = fopen("log/log".date("d-m-Y").".txt", "a");
+        fwrite($file, ":::::::::::::::::::::::CONSULTA BD:::::::::::::::::::::::".PHP_EOL);
+
+        foreach($errors as $error){
+          fwrite($file, '['.date('d/m/Y h:i:s A').']'.' SQLSTATE: '.$error['SQLSTATE'].PHP_EOL);
+          fwrite($file, '['.date('d/m/Y h:i:s A').']'.' CODIGO: '.$error['code'].PHP_EOL);
+          fwrite($file, '['.date('d/m/Y h:i:s A').']'.' MENSAJE: '.$error['message'].PHP_EOL);
+        }
+
+        fclose($file);
+        return 1;
+      }
+    }
+
+    return 0;
  }
 
  public function consultaBD2($sentenciaSQL){
