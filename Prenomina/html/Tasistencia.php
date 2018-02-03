@@ -1,12 +1,10 @@
 <?php
-
 $objBDSQL = new ConexionSRV();
 $objBDSQL->conectarBD();
 if($PC <= 24){
 	$fechas = periodo($PC);
 	list($fecha1, $fecha2, $fecha3, $fecha4) = explode(',', $fechas);
 }
-
 if($TN == 1 || $PC > 24)
 {
   $_queryFechas = "SELECT CONVERT (VARCHAR (10), inicio, 103) AS 'FECHA1', CONVERT (VARCHAR (10), cierre, 103) AS 'FECHA2' FROM Periodos WHERE tiponom = 1 AND periodo = $PC AND ayo_operacion = $ayoA AND empresa = $IDEmpresa ;";

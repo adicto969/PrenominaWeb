@@ -6,6 +6,7 @@ function GTasistencia(){
     conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     conexion.onreadystatechange = function() {
       if(conexion.readyState == 4 && conexion.status == 200){
+        conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
         if(conexion.responseText == true){
           document.getElementById('textCargado').innerHTML = "ARCHIVOS GENERADOS CORRECTAMENTE";
 
@@ -42,6 +43,7 @@ function ActualizarT() {
     conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     conexion.onreadystatechange = function() {
       if(conexion.readyState == 4 && conexion.status == 200){
+        conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
         if(conexion.responseText == 1){
           document.getElementById('textCargado').innerHTML = "DATOS ACTUALIZADOS";
           setTimeout(function(){
@@ -78,6 +80,7 @@ function CP(){
       conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
       conexion.onreadystatechange = function(){
         if(conexion.readyState == 4 && conexion.status == 200){
+          conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
           if(conexion.responseText != 1){
             console.log(conexion.responseText);
           }
@@ -100,6 +103,7 @@ function GuardarT(){
   conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
   conexion.onreadystatechange = function() {
     if(conexion.readyState == 4 && conexion.status == 200){
+      conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
       if(conexion.responseText == 1){
         document.getElementById('textCargado').innerHTML = "DATOS GUARDADOS";
         setTimeout(function(){
@@ -133,8 +137,8 @@ function CerrarT(estado){
   conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
   conexion.onreadystatechange = function() {
     if(conexion.readyState == 4 && conexion.status == 200){
-      if(conexion.responseText == 3){
-        console.log(conexion.responseText);
+      conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+      if(conexion.responseText == 3){        
         if(estado == 1){
           document.getElementById('textCargado').innerHTML = "PERIODO CERRADO";
         }else {
@@ -145,8 +149,7 @@ function CerrarT(estado){
           document.getElementById('textCargado').innerHTML = "Procesando...";
           Checadas();
         }, 1500);
-      }else {
-        console.log(conexion.responseText);
+      }else {        
         document.getElementById('textCargado').innerHTML = conexion.responseText;
         /*setTimeout(function(){
           $("#modal1").modal('close');

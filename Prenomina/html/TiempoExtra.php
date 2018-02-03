@@ -23,9 +23,7 @@ if($TN == 1 || $PC > 24)
   $fecha4 = $_datos['FECHA2'];
   $objBDSQL->liberarC();
 }
-
 ?>
-
 <h4 style="text-align: center;"><?php echo $NomDep; ?></h4>
 <h5 class="center">TIEMPO EXTRA</h5>
 <div class="row">

@@ -1,6 +1,4 @@
 <?php
-
-
 if(empty($_POST["fecha"])){
     $fecha = date("d/m/Y");
 }else{

@@ -50,6 +50,7 @@ function GStaffin() {
 	conexion.onreadystatechange = function() {
 		if(conexion.readyState == 4 && conexion.status == 200)
 		{
+			conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
 			if(conexion.responseText == 1){
 				document.getElementById('textCargado').innerHTML = "STAFFING GUARDADO";
 				$("#btnStaf").attr("onclick","AStaffin()");
@@ -86,6 +87,7 @@ function AStaffin() {
 	conexion.onreadystatechange = function() {
 		if(conexion.readyState == 4 && conexion.status == 200)
 		{
+			conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
 			if(conexion.responseText == 1){
 				document.getElementById('textCargado').innerHTML = "STAFFING ACTUALIZADO";
 				setTimeout(function () {

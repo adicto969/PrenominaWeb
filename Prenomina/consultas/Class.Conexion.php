@@ -82,9 +82,9 @@ class ConexionSRV
         foreach($errors as $error){
           fwrite($file, '['.date('d/m/Y h:i:s A').']'.' SQLSTATE: '.$error['SQLSTATE'].PHP_EOL);
           fwrite($file, '['.date('d/m/Y h:i:s A').']'.' CODIGO: '.$error['code'].PHP_EOL);
-          fwrite($file, '['.date('d/m/Y h:i:s A').']'.' MENSAJE: '.$error['message'].PHP_EOL);
+          fwrite($file, '['.date('d/m/Y h:i:s A').']'.' MENSAJE: '.$error['message'].PHP_EOL);          
         }
-
+        fwrite($file, '['.date('d/m/Y h:i:s A').']'.' CONSULTA: '.$sentenciaSQL.PHP_EOL);
         fclose($file);
         return 1;
       }
@@ -95,6 +95,27 @@ class ConexionSRV
 
  public function consultaBD2($sentenciaSQL){
    $this->consulta2 = sqlsrv_query($this->enlace, $sentenciaSQL);
+
+   if($this->consulta2 === false || empty($this->consulta2))
+   {
+     if(($errors = sqlsrv_errors()) != null)
+     {
+
+       $file = fopen("log/log".date("d-m-Y").".txt", "a");
+       fwrite($file, ":::::::::::::::::::::::CONSULTA BD:::::::::::::::::::::::".PHP_EOL);
+
+       foreach($errors as $error){
+         fwrite($file, '['.date('d/m/Y h:i:s A').']'.' SQLSTATE: '.$error['SQLSTATE'].PHP_EOL);
+         fwrite($file, '['.date('d/m/Y h:i:s A').']'.' CODIGO: '.$error['code'].PHP_EOL);
+         fwrite($file, '['.date('d/m/Y h:i:s A').']'.' MENSAJE: '.$error['message'].PHP_EOL);
+       }
+       fwrite($file, '['.date('d/m/Y h:i:s A').']'.' CONSULTA: '.$sentenciaSQL.PHP_EOL);
+       fclose($file);
+       return 1;
+     }
+   }
+
+   return 0;
  }
 
  public function returnConsulta(){

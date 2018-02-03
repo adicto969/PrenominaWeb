@@ -11,6 +11,7 @@ function cambiarPeriodo() {
       	conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
       	conexion.onreadystatechange = function() {
         if(conexion.readyState == 4 && conexion.status == 200){
+			conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
          	if(conexion.responseText == 'Error'){
             	document.getElementById('estado_consulta_ajax').innerHTML = '<div style="width: 100%" class="deep-orange accent-4"><h6 class="center-align" style="padding-top: 5px; padding-bottom: 5px; color: white;">No hay fecha de este periodo !</h6></div>';
 
@@ -94,6 +95,7 @@ function GenerarPermiso() {
 				conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 				conexion.onreadystatechange = function(){
 					if(conexion.readyState == 4 && conexion.status == 200){
+						conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
 						if(conexion.responseText == 1){
 							Materialize.toast('DATO ACTUALIZADO!', 5000);
 							document.getElementById("frmPermiso").reset();
@@ -137,13 +139,14 @@ $(function () {
     type: 'POST',
     dataType: 'JSON',
     success: function (data){
-      var infojson = "<input type='hidden' name='cantidadC' value='"+data['codigos'].length+"'/><thead><tr><th>Codigos</th><th>Descripcion</th></tr></thead><tbody>";
-      for (var c = 0; c <= data['codigos'].length-1; c++){
-        infojson += "<tr><td>"+data['codigos'][c].codigo;
-        infojson += "</td><td>"+data['codigos'][c].descripcion+"</td></tr>";
-      }
-      infojson += "<tr><td><input type='text' name='codigo' size='7' pattern='[a-zA-Z]{3}|[a-zA-Z]{2}|[a-zA-Z]{1}'></td><td><input type='text' name='descripcion' size='7'></td></tr></tbody><input type='hidden' name='opcion' value='nuevo'>";
-      $("#Tcodigos").html(infojson);
+		data = data.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+      	var infojson = "<input type='hidden' name='cantidadC' value='"+data['codigos'].length+"'/><thead><tr><th>Codigos</th><th>Descripcion</th></tr></thead><tbody>";
+      	for (var c = 0; c <= data['codigos'].length-1; c++){
+        	infojson += "<tr><td>"+data['codigos'][c].codigo;
+        	infojson += "</td><td>"+data['codigos'][c].descripcion+"</td></tr>";
+      	}
+      	infojson += "<tr><td><input type='text' name='codigo' size='7' pattern='[a-zA-Z]{3}|[a-zA-Z]{2}|[a-zA-Z]{1}'></td><td><input type='text' name='descripcion' size='7'></td></tr></tbody><input type='hidden' name='opcion' value='nuevo'>";
+      	$("#Tcodigos").html(infojson);
     }
   });
 });
@@ -165,6 +168,7 @@ $("#frm1").on("submit", function(e){
       type: 'POST',
       dataType: 'JSON',
       success: function (data) {
+		data = data.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
         var infodata = "<input type='hidden' name='cantidadC' value='"+data['codigos'].length+"'/><thead><tr><th>Codigo</th><th>Descripcion</th></tr></thead><tbody>";
         for (var c = 0; c <= data['codigos'].length-1; c++){
           infodata += "<tr><td>"+data['codigos'][c].codigo;
@@ -204,6 +208,7 @@ function autorizar(ID, AU, LBID, CODEMP, FF) {
 			//console.log(data);
 		}
 	}).done(function(retorno) {
+		retorno = retorno.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
 		if(retorno == '1'){
 			Ndiv = document.createElement("embed");
 			$('#Ndiv').remove();

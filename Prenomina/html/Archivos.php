@@ -1,6 +1,4 @@
 <h1 class="center">HOLA ARCHIVOS</h1>
-
-
 <?php
 //$dir = (isset($_GET['dir']))?$_GET['dir']:"/";
 $dir = "C:\apsisistemas\ARCHIVOS\E2\quincenal\\excel\\";

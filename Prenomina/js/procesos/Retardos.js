@@ -11,6 +11,7 @@ function cambiarPeriodo(){
       conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
       conexion.onreadystatechange = function() {
         if(conexion.readyState == 4 && conexion.status == 200){
+          conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
           if(conexion.responseText == 'Error'){
             document.getElementById('estado_consulta_ajax').innerHTML = '<div style="width: 100%" class="deep-orange accent-4"><h6 class="center-align" style="padding-top: 5px; padding-bottom: 5px; color: white;">No hay fecha de este periodo !</h6></div>';
           } else {
@@ -86,6 +87,7 @@ function GRetardos()
   {
     if(conexion.readyState == 4 && conexion.status == 200)
     {
+      conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
       if(conexion.responseText == 1)
       {
         document.getElementById('textCargado').innerHTML = "EL ARCHIVO SE HA GENERADO CON EXITO";
@@ -131,7 +133,7 @@ function GenerarExcel(){
       $('#modal1').modal('open');
     }
   }).done(function(datosC){
-    console.log(datosC);
+    datosC = datosC.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
     if(datosC == '1'){
         $('#textCargado').html("ARCHIVO GENERADO");
     }else{

@@ -1,5 +1,4 @@
 <?php
-
 $objBDSQL = new ConexionSRV();
 $objBDSQL->conectarBD();
 if($PC <= 24){

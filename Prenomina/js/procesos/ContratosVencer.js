@@ -11,8 +11,7 @@ function verContratos(){
   conexion.onreadystatechange = function() {
     if(conexion.readyState == 4 && conexion.status == 200){
       document.getElementById('estado_consulta_ajax').innerHTML = conexion.responseText;
-      var Dimensiones = AHD();
-      console.log(Dimensiones[2]);
+      var Dimensiones = AHD();      
       if(Dimensiones[3] > Dimensiones[1]){
         $('#pie').css("position", "inherit");
       }else {
