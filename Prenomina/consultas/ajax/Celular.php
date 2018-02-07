@@ -1,6 +1,7 @@
 <?php
-$bdS = constructS();
-$bdSQL = new ConexionS();
+$bdSQL = new ConexionSRV();
+$bdSQL->conectarBD();
+
 $bdM = new ConexionM();
 $bdM->__constructM();
 
@@ -56,12 +57,11 @@ if($Dep == "TODO" || $Dep == "TODOS" || $Dep == "todo" || $Dep == "todos")
 
 }
 
-$num = count($bdSQL->recorrer($query));
+$num = $bdSQL->obtenfilas($query);
 
 if($num > 1)
-{
-
-	$rs = odbc_exec($bdS, $query);
+{	
+	$bdSQL->consultaBD($query);
 
 	echo '
 		<form>
@@ -82,19 +82,19 @@ if($num > 1)
 
 	$lr = 0;
 
-	while ( odbc_fetch_row( $rs ) )
+	while ($row=$bdSQL->obtenResult())
 	{
 		$lr++;
 		echo '
 			<tr>
-				<td>'.odbc_result($rs, "codigo").'</td>
-				<td>'.utf8_decode(odbc_result($rs, "Nombre")).'</td>
-				<td>'.odbc_result($rs, "Actividad").'</td>
-				<td>'.odbc_result($rs, "fecha").'</td>
-				<td>'.odbc_result($rs, "checada").'</td>
+				<td>'.$row["codigo"].'</td>
+				<td>'.utf8_decode($row["Nombre"]).'</td>
+				<td>'.$row["Actividad"].'</td>
+				<td>'.$row["fecha"].'</td>
+				<td>'.$row["checada"].'</td>
 		';
 
-		$resulM = $bdM->query("SELECT Modelo FROM cel WHERE IDEmpleado = '".odbc_result($rs, "codigo")."' AND Empresa = '".$IDEmpresa."';");
+		$resulM = $bdM->query("SELECT Modelo FROM cel WHERE IDEmpleado = '".$row["codigo"]."' AND Empresa = '".$IDEmpresa."';");
 		$valor = "";
 		$check = "";
 
@@ -110,7 +110,7 @@ if($num > 1)
 
 		echo '
 			<td>'.$valor.'</td>
-			<td><p style="text-align: center;"><input type="checkbox" name="'.odbc_result($rs,"codigo").'"  id="'.odbc_result($rs,"codigo").$lr.'" value="SI" '.$check.'><label for="'.odbc_result($rs,"codigo").$lr.'"></label></p></td>
+			<td><p style="text-align: center;"><input type="checkbox" name="'.$row["codigo"].'"  id="'.$row["codigo"].$lr.'" value="SI" '.$check.'><label for="'.$row["codigo"].$lr.'"></label></p></td>
 		</tr>
 		';
 	}

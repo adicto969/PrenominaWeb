@@ -196,7 +196,7 @@ if($DepOsub == 1)
   '".$supervisor."',
   '".$IDEmpresa."',
   '".$_tipoNom."',
-  'LEFT (Llaves.centro, 10) = LEFT (''".$centro."'', ".$MascaraEm.")', '1'";
+  'LEFT (Llaves.centro, ".$MascaraEm.") = LEFT (''".$centro."'', ".$MascaraEm.")', '1'";
   $ComSql = "LEFT (Centro, ".$MascaraEm.") = LEFT ('".$centro."', ".$MascaraEm.")";
 }else {
   $queryGeneral = "
@@ -211,7 +211,6 @@ if($DepOsub == 1)
   '0'";
   $ComSql = "Centro = '".$centro."'";
 }
-
 
 /////////////Periodo y TipoNomina/////////
 $_UPDATEPYT = "UPDATE config SET PC = $_periodo, TN = $_tipoNom WHERE IDUser = '".$_SESSION['IDUser']."';";
@@ -383,37 +382,37 @@ while ($row=$objBDSQL->obtenResult()) {
         ##################################################
         //Condiciones para insertar datos encuanto a fecha
         ##################################################
-	if($diasAnteO == true){
-        if(date($_FechaCol) == date("d-m-Y")){
-          if($_valorC != ""){
-            if($row2['D'] != 'F'){
-              $UPDATERELACIONDT = "UPDATE relacionempfrente SET ".$_dias[$_DiaNumero]." = '".$row2['D']."' WHERE Codigo = '".$row['codigo']."' AND ".$ComSql." AND IDEmpresa = '".$IDEmpresa."';";
-              $updaRelaFrente = $objBDSQL2->consultaBD2($UPDATERELACIONDT);
-              if($updaRelaFrente === false){
-                die(print_r(sqlsrv_errors(), true));
-                break;
+        if($diasAnteO == true){
+              if(date($_FechaCol) == date("d-m-Y")){
+                if($_valorC != ""){
+                  if($row2['D'] != 'F'){
+                    $UPDATERELACIONDT = "UPDATE relacionempfrente SET ".$_dias[$_DiaNumero]." = '".$row2['D']."' WHERE Codigo = '".$row['codigo']."' AND ".$ComSql." AND IDEmpresa = '".$IDEmpresa."';";
+                    $updaRelaFrente = $objBDSQL2->consultaBD2($UPDATERELACIONDT);
+                    if($updaRelaFrente === false){
+                      die(print_r(sqlsrv_errors(), true));
+                      break;
+                    }
+                    //$objBDSQL2->liberarC2();
+                  }
+                }
               }
-              //$objBDSQL2->liberarC2();
-            }
-          }
-        }
 
-        if(empty($_valorC)){
-          $fechaHOY = date("d-m-Y");
-          $_valorC = $row2['D'];
-          if(!empty($_valorC) && (date($_FechaCol) <= $fechaHOY)){
-            if($_valorC != 'F'){
-              $INSERTRELACIONDT = "INSERT INTO datos (codigo, nombre, valor, periodoP, tipoN, IDEmpresa, Centro) VALUES ('".$row['codigo']."', '".$_FechaCol."', '".$_valorC."', '".$_periodo."', '".$_tipoNom."', '".$IDEmpresa."', '".$centro."');";
-              $InsertD = $objBDSQL2->consultaBD2($INSERTRELACIONDT);
-              if($InsertD === false){
-                die(print_r(sqlsrv_errors(), true));
-                break;
+              if(empty($_valorC)){
+                $fechaHOY = date("d-m-Y");
+                $_valorC = $row2['D'];
+                if(!empty($_valorC) && (date($_FechaCol) <= $fechaHOY)){
+                  if($_valorC != 'F'){
+                    $INSERTRELACIONDT = "INSERT INTO datos (codigo, nombre, valor, periodoP, tipoN, IDEmpresa, Centro) VALUES ('".$row['codigo']."', '".$_FechaCol."', '".$_valorC."', '".$_periodo."', '".$_tipoNom."', '".$IDEmpresa."', '".$centro."');";
+                    $InsertD = $objBDSQL2->consultaBD2($INSERTRELACIONDT);
+                    if($InsertD === false){
+                      die(print_r(sqlsrv_errors(), true));
+                      break;
+                    }
+                    //$objBDSQL2->liberarC2();
+                  }
+                }
               }
-              //$objBDSQL2->liberarC2();
-            }
-          }
         }
-	}
         ##################################################
         ##################################################
         if(empty($row[$value])){

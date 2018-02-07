@@ -14,10 +14,10 @@ define('M_DB_PASS', '');
 define('M_DB_NOMBRE', 'faltascabos');
 
 #Constantes de Conexion SQLSERVER
-define('S_DB_SERVER', 'DESKTOP-2POHOQ5\\JUAN');
+define('S_DB_SERVER', 'DESKTOP-2POHOQ5\\JUAN2017');
 define('S_DB_USER', 'sa');
 define('S_DB_PASS', 'Enterprice9');
-define('S_DB_NOMBRE', 'bahia');
+define('S_DB_NOMBRE', 'apsisistemas2');
 
 define('Unidad', 'C:\\apsisistemas\\ARCHIVOS\\');
 #Constantes de la App

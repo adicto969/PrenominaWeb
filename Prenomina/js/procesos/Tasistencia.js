@@ -24,8 +24,7 @@ $("#frm1").on("submit", function(e){
       url: 'codigos.json',
       type: 'POST',
       dataType: 'JSON',
-      success: function (data) {
-        data = data.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+      success: function (data) {        
         var infodata = "<input type='hidden' name='cantidadC' value='"+data['codigos'].length+"'/><thead><tr><th>Codigo</th><th>Descripcion</th></tr></thead><tbody>";
         for (var c = 0; c <= data['codigos'].length-1; c++){
           infodata += "<tr><td>"+data['codigos'][c].codigo;
@@ -43,8 +42,7 @@ $(function () {
     url: 'codigos.json',
     type: 'POST',
     dataType: 'JSON',
-    success: function (data){
-      data = data.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+    success: function (data){            
       var infojson = "<input type='hidden' name='cantidadC' value='"+data['codigos'].length+"'/><thead><tr><th>Codigos</th><th>Descripcion</th></tr></thead><tbody>";
       for (var c = 0; c <= data['codigos'].length-1; c++){
         infojson += "<tr><td>"+data['codigos'][c].codigo;

@@ -1,6 +1,6 @@
 <?php
-$bdS = constructS();
-$bdSQL = new ConexionS();
+$bdSQL = new ConexionSRV();
+$bdSQL->conectarBD();
 $bdM = new ConexionM();
 $bdM->__constructM();
 $BTN = "";
@@ -10,7 +10,7 @@ $valor = "";
 if($DepOsub == 1)
 {
   $ComSql = "LEFT (b.centro, ".$MascaraEm.") = LEFT ('".$centro."', ".$MascaraEm.")";
-  $ComSql2 = "LEFT (centro, ".$MascaraEm.") = LEFT (".$centro.", ".$MascaraEm.")";
+  $ComSql2 = "LEFT (centro, ".$MascaraEm.") = LEFT ('".$centro."', ".$MascaraEm.")";
 }else {
   $ComSql = "b.centro = '".$centro."'";
   $ComSql2 = "centro = ".$centro."";
@@ -38,14 +38,15 @@ echo '
 	<div>
 		<div>
 ';
+$bdSQL->consultaBD($query2);
 
-$rs = odbc_exec($bdS, $query2);
+$row = $bdSQL->obtenResult();
 
-if(odbc_result($rs, 1)){
+if($bdSQL->obtenfilas($query2) > 0){
 	$BTN = '<button class="btn" id="btnStaf" onclick="AStaffin()" style="margin: 20px;">ACTUALIZAR</button>';
 	$exito = 1;
 
-	$queryM = $bdM->prepare("SELECT v5 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs, 3)."';");
+	$queryM = $bdM->prepare("SELECT v5 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$bdSQL->obtenResult()['ocupacion']."';");
 	$queryM->execute();
 	$queryM->store_result();
 
@@ -56,11 +57,10 @@ if(odbc_result($rs, 1)){
 }
 
 if($exito == 1 && $num == 0)
-{
-	$rs2 = odbc_exec($bdS, $query2);
-	while (odbc_fetch_row($rs2))
+{	
+	while ($row = $bdSQL->consultaBD($query2))
 	{
-		$Minsert = "INSERT INTO staffing VALUES (NULL, ".odbc_result($rs2, 1).", '".odbc_result($rs2,"centro")."', ".odbc_result($rs2,"ocupacion").", ".odbc_result($rs2,"v5").", ".odbc_result($rs2,"v10").", ".odbc_result($rs2,"v15").", ".odbc_result($rs2,"v20").", ".odbc_result($rs2,"v25").", ".odbc_result($rs2,"v30").", ".odbc_result($rs2,"v35").", ".odbc_result($rs2,"v40").", ".odbc_result($rs2,"v45").", ".odbc_result($rs2,"v50").", ".odbc_result($rs2,"v55").", ".odbc_result($rs2,"v60").", ".odbc_result($rs2,"v65").", ".odbc_result($rs2,"v70").", ".odbc_result($rs2,"v75").", ".odbc_result($rs2,"v80").", ".odbc_result($rs2,"v85").", ".odbc_result($rs2,"v90").", ".odbc_result($rs2,"v95").", ".odbc_result($rs2,"v100").");";
+		$Minsert = "INSERT INTO staffing VALUES (NULL, ".$row['empresa'].", '".$row["centro"]."', ".$row["ocupacion"].", ".$row["v5"].", ".$row["v10"].", ".$row["v15"].", ".$row["v20"].", ".$row["v25"].", ".$row["v30"].", ".$row["v35"].", ".$row["v40"].", ".$row["v45"].", ".$row["v50"].", ".$row["v55"].", ".$row["v60"].", ".$row["v65"].", ".$row["v70"].", ".$row["v75"].", ".$row["v80"].", ".$row["v85"].", ".$row["v90"].", ".$row["v95"].", ".$row["v100"].");";
 
 		$bdM->query($Minsert);
 	}
@@ -103,22 +103,23 @@ echo '
 	</thead>
 	<tbody>
 ';
+$bdSQL->liberarC();
 
-$rs3 = odbc_exec($bdS, $query);
+$bdSQL->consultaBD($query);
 $lr = 0;
 
-while ( odbc_fetch_row( $rs3 ) )
+while ( $row=$bdSQL->obtenResult() )
 {
 	$lr++;
 
 	echo '
 		<tr>
-			<input type="hidden" name="C'.$lr.'" value="'.odbc_result($rs3, "ocupacion").'">
-			<td>'.odbc_result($rs3, "ocupacion").'</td>
-			<td>'.utf8_decode(odbc_result($rs3, 2)).'</td>
+			<input type="hidden" name="C'.$lr.'" value="'.$row["ocupacion"].'">
+			<td>'.$row["ocupacion"].'</td>
+			<td>'.utf8_decode($row["actividad"]).'</td>
 	';
 
-	$queryM2 = $bdM->query("SELECT v5 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v5 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
@@ -127,7 +128,7 @@ while ( odbc_fetch_row( $rs3 ) )
 	echo '<td><input type="number" min="0" name="A5'.$lr.'" value="'.$valor.'"></td>';
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v10 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v10 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -136,7 +137,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v15 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v15 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -145,7 +146,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v20 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v20 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -154,7 +155,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v25 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v25 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -163,7 +164,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v30 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v30 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -172,7 +173,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v35 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v35 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -181,7 +182,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v40 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v40 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -190,7 +191,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v45 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v45 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -199,7 +200,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
   $valor = "";
-	$queryM2 = $bdM->query("SELECT v50 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v50 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -207,7 +208,7 @@ while ( odbc_fetch_row( $rs3 ) )
 	echo '<td><input type="number" min="0" name="A50'.$lr.'" value="'.$valor.'"></td>';
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v55 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v55 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -216,7 +217,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v60 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v60 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -225,7 +226,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v65 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v65 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -234,7 +235,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v70 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v70 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -243,7 +244,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v75 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v75 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -252,7 +253,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v80 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v80 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -261,7 +262,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v85 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v85 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -270,7 +271,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v90 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v90 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -279,7 +280,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v95 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v95 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
@@ -288,7 +289,7 @@ while ( odbc_fetch_row( $rs3 ) )
 
 
 	$valor = "";
-	$queryM2 = $bdM->query("SELECT v100 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".odbc_result($rs3,"ocupacion")."';");
+	$queryM2 = $bdM->query("SELECT v100 FROM staffing WHERE IDEmpresa = '".$IDEmpresa."' AND ".$ComSql2." AND ocupacion = '".$row["ocupacion"]."';");
 	if($bdM->rows($queryM2) > 0){
     	$datos = $bdM->recorrer($queryM2);
     	$valor = $datos[0];
