@@ -104,7 +104,7 @@ if($num1 == 0 && $num2 == 0){
 			</thead>
 			<tbody>
 		';
-		$objBDSQL2->consultaBD($sql561);
+		$objBDSQL->consultaBD($sql561);
 		while ($row = $objBDSQL->obtenResult())
 		{
 			echo '<tr>

@@ -88,8 +88,7 @@ class ConexionSRV
         fclose($file);
         return 1;
       }
-    }
-
+    }  
     return 0;
  }
 
