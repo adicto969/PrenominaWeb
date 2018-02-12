@@ -11,7 +11,7 @@ function cambiarPeriodo() {
       	conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
       	conexion.onreadystatechange = function() {
         if(conexion.readyState == 4 && conexion.status == 200){
-			conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+			conexion.responseText = conexion.responseText.replace(/\ufeff/g, '');
          	if(conexion.responseText == 'Error'){
             	document.getElementById('estado_consulta_ajax').innerHTML = '<div style="width: 100%" class="deep-orange accent-4"><h6 class="center-align" style="padding-top: 5px; padding-bottom: 5px; color: white;">No hay fecha de este periodo !</h6></div>';
 
@@ -95,7 +95,7 @@ function GenerarPermiso() {
 				conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 				conexion.onreadystatechange = function(){
 					if(conexion.readyState == 4 && conexion.status == 200){
-						conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+						conexion.responseText = conexion.responseText.replace(/\ufeff/g, '');
 						if(conexion.responseText == 1){
 							Materialize.toast('DATO ACTUALIZADO!', 5000);
 							document.getElementById("frmPermiso").reset();
@@ -139,7 +139,7 @@ $(function () {
     type: 'POST',
     dataType: 'JSON',
     success: function (data){
-		data = data.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+		data = data;
       	var infojson = "<input type='hidden' name='cantidadC' value='"+data['codigos'].length+"'/><thead><tr><th>Codigos</th><th>Descripcion</th></tr></thead><tbody>";
       	for (var c = 0; c <= data['codigos'].length-1; c++){
         	infojson += "<tr><td>"+data['codigos'][c].codigo;
@@ -168,7 +168,7 @@ $("#frm1").on("submit", function(e){
       type: 'POST',
       dataType: 'JSON',
       success: function (data) {
-		data = data.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+		data = data;
         var infodata = "<input type='hidden' name='cantidadC' value='"+data['codigos'].length+"'/><thead><tr><th>Codigo</th><th>Descripcion</th></tr></thead><tbody>";
         for (var c = 0; c <= data['codigos'].length-1; c++){
           infodata += "<tr><td>"+data['codigos'][c].codigo;
@@ -208,7 +208,7 @@ function autorizar(ID, AU, LBID, CODEMP, FF) {
 			//console.log(data);
 		}
 	}).done(function(retorno) {
-		retorno = retorno.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+		retorno = retorno.replace(/\ufeff/g, '');
 		if(retorno == '1'){
 			Ndiv = document.createElement("embed");
 			$('#Ndiv').remove();

@@ -70,7 +70,7 @@ function Gcontratos(){
     conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     conexion.onreadystatechange = function() {
       if(conexion.readyState == 4 && conexion.status == 200){
-        conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+        conexion.responseText = conexion.responseText.replace(/\ufeff/g, '');
         if(conexion.responseText == "1"){
           document.getElementById('textCargado').innerHTML = "DATOS GUARDADOS";
           setTimeout(function(){
@@ -108,7 +108,7 @@ function EnviarContrato(){
     conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     conexion.onreadystatechange = function() {
       if(conexion.readyState == 4 && conexion.status == 200){
-        conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+        conexion.responseText = conexion.responseText.replace(/\ufeff/g, '');
         if(conexion.responseText == "1"){
           document.getElementById('textCargado').innerHTML = "ARCHIVO GENERADO";
           setTimeout(function(){
@@ -473,7 +473,7 @@ function GenerarExcel(){
         alert( "page not found" );
       },
       200: function(datosC) {
-        datosC = datosC.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+        datosC = datosC.replace(/\ufeff/g, '');
         if(datosC == '1'){
             $('#textCargado').html("ARCHIVO GENERADO");
         }else{
@@ -487,7 +487,7 @@ function GenerarExcel(){
 
     }
   }).done(function(datosC){
-    datosC = datosC.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+    datosC = datosC.replace(/\ufeff/g, '');
     if(datosC == '1'){
         $('#textCargado').html("ARCHIVO GENERADO");
     }else{

@@ -8,6 +8,8 @@ $bd1->__constructM();
 
 $InsertarCP = "UPDATE config SET supervisor = '$supervisor' WHERE IDUser = '".$_SESSION['IDUser']."';";
 
+$_SESSION['supervisor'] = $supervisor;
+
 if($bd1->query($InsertarCP)){
    $Estado = 2;
 }else {

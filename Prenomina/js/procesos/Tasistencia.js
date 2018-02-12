@@ -63,7 +63,7 @@ function cambiarPeriodo(){
       conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
       conexion.onreadystatechange = function() {
         if(conexion.readyState == 4 && conexion.status == 200){
-          conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+          conexion.responseText = conexion.responseText.replace(/\ufeff/g, '');
           if(conexion.responseText == 'Error'){
             document.getElementById('estado_consulta_ajax').innerHTML = '<div style="width: 100%" class="deep-orange accent-4"><h6 class="center-align" style="padding-top: 5px; padding-bottom: 5px; color: white;">No hay fecha de este periodo !</h6></div>';
 
@@ -103,7 +103,7 @@ function Checadas(){
         conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         conexion.onreadystatechange = function() {
           if(conexion.readyState == 4 && conexion.status == 200){
-            conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+            conexion.responseText = conexion.responseText.replace(/\ufeff/g, '');
             if(conexion.responseText == 1){
 
             } else {
@@ -153,7 +153,7 @@ function Cfausentismo(){
     conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     conexion.onreadystatechange = function() {
       if(conexion.readyState == 4 && conexion.status == 200){
-        conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+        conexion.responseText = conexion.responseText.replace(/\ufeff/g, '');
         if(conexion.responseText != 1){
           console.log(conexion.responseText);
         }
@@ -309,7 +309,7 @@ function CargDiasANT() {
         conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         conexion.onreadystatechange = function() {
           if(conexion.readyState == 4 && conexion.status == 200){
-            conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+            conexion.responseText = conexion.responseText.replace(/\ufeff/g, '');
             if(conexion.responseText == 1){
 
             } else {
@@ -356,7 +356,7 @@ function GenerarExcel(){
       $('#modal1').modal('open');
     }
   }).done(function(datosC){
-    datosC = datosC.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+    datosC = datosC.replace(/\ufeff/g, '');
     if(datosC == '1'){
         $('#textCargado').html("ARCHIVO GENERADO");
     }else{

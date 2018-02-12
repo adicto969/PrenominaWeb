@@ -63,7 +63,7 @@ function VGformatos(){
     conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     conexion.onreadystatechange = function() {
       if(conexion.readyState == 4 && conexion.status == 200){
-        conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+        conexion.responseText = conexion.responseText.replace(/\ufeff/g, '');
         if(conexion.responseText == 1){
           document.getElementById('textCargado').innerHTML = "ARCHIVOS GENERADOS";
           setTimeout(function(){
@@ -119,7 +119,7 @@ function SGformatos(){
               conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
               conexion.onreadystatechange = function() {
                 if(conexion.readyState == 4 && conexion.status == 200){
-                  conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+                  conexion.responseText = conexion.responseText.replace(/\ufeff/g, '');
                   if(conexion.responseText == 1){
                     document.getElementById('textCargado').innerHTML = "ARCHIVOS GENERADOS";
                     setTimeout(function(){
@@ -172,7 +172,7 @@ function LGformatos(){
         conexion = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         conexion.onreadystatechange = function() {
           if(conexion.readyState == 4 && conexion.status == 200){
-            conexion.responseText = conexion.responseText.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+            conexion.responseText = conexion.responseText.replace(/\ufeff/g, '');
             if(conexion.responseText == 1){
               document.getElementById('textCargado').innerHTML = "ARCHIVOS GENERADOS";
               setTimeout(function(){

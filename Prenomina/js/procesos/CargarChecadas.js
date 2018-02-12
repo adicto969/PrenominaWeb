@@ -21,7 +21,7 @@ function CargarChecadas()
         type: 'POST',
         dataType: 'JSON',
         success: function (data) {
-			data = data.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+			data = data;
             var  infoJSONN = "<input type='hidden' id='cantidadCC' name='cantidadC' value='"+data['empleados'].length+"'/>";
             infoJSONN += "<thead><tr><th class='Aline'>Codigo</th><th class='Aline'>Empresa</th><th class='Aline'>Entrada</th><th class='Aline'>Salida</th><th class='Aline'>Eliminar</th></tr></thead></tbody>";
             for (var c = 0; c <= data['empleados'].length-1; c++) {
@@ -56,7 +56,7 @@ function eliminar(d1){
 	    url: "ajax.php?modo=cargarEmpleados",
 	    data: parametrosE
 	}).done(function(info){
-		info = info.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+		info = info.replace(/\ufeff/g, '');
 	    Materialize.toast(info, 3000);
 	    CargarChecadas();
 	});
@@ -110,7 +110,7 @@ function Agregar() {
 														url: "ajax.php?modo=cargarEmpleados",
 														data: variables
 												}).done(function(info){
-														info = info.replace("\ufeff", "").replace("\ufeff\ufeff", "").replace("\ufeff\ufeff\ufeff", "");
+														info = info.replace(/\ufeff/g, '');
 														Materialize.toast(info, 3000);
 														CargarChecadas();
 												});
