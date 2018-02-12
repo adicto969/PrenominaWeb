@@ -223,6 +223,8 @@ try{
 }catch (\Exception $e){
   echo $e;
 }
+$_SESSION['TN'] = $_tipoNom;
+$_SESSION['PC'] = $_periodo;
 //////////ACTUALIZAR FRENTES ////////////////
 
 if(date($_fecha1) >= date("Ymd")){
@@ -417,32 +419,47 @@ while ($row=$objBDSQL->obtenResult()) {
         ##################################################
         if(empty($row[$value])){
           $_cuerpo .= '<td style="height: 74px;">';
-          if($_colorF == 1){
-              $_cuerpo .= '<input type="text" '.$bloquear.' style="background-color: #f57c7c;" id="'.$row['codigo'].$_FechaCol.'" value="'.$_valorC.'" onkeyup="ConsultaFrente('.$row["codigo"].', \''.$_FechaCol.'\', \''.$row["codigo"].$_FechaCol.'\', )" >';
+          if($_tipoNom == 1){
+            $evento = 'onkeyup="ConsultaFrente('.$row["codigo"].', \''.$_FechaCol.'\', \''.$row["codigo"].$_FechaCol.'\', )"';
           }else {
-              $_cuerpo .= '<input type="text" '.$bloquear.' id="'.$row['codigo'].$_FechaCol.'" value="'.$_valorC.'" onkeyup="ConsultaFrente('.$row['codigo'].', \''.$_FechaCol.'\', \''.$row['codigo'].$_FechaCol.'\', )" >';
+            $evento = 'onkeyup="GuardarRegistro('.$row["codigo"].', \''.$_FechaCol.'\')"';
+          }          
+          
+          if($_colorF == 1){
+              $_cuerpo .= '<input type="text" '.$bloquear.' style="background-color: #f57c7c;" id="'.$row['codigo'].$_FechaCol.'" value="'.$_valorC.'" '.$evento.' >';
+          }else {
+              $_cuerpo .= '<input type="text" '.$bloquear.' id="'.$row['codigo'].$_FechaCol.'" value="'.$_valorC.'" '.$evento.' >';
           }
           $_cuerpo .= '</td>';
 
-        }else {
+        }else {          
           if($row2['E'] == 1){
             $_cuerpo .= '<td class="Aline" style="height: 74px;">
                           <p style="padding: 0; margin: 0; text-align: center;">
                             <input type="checkbox" '.$bloquear.' checked="checked" id="'.$row['codigo'].$_FechaCol.'DL" />
                             <label for="'.$row['codigo'].$_FechaCol.'DL" onclick="DLaborados(\''.$row['codigo'].'\', \''.$_FechaCol.'\', \''.$centro.'\', \''.$_periodo.'\', \''.$_tipoNom.'\', \''.$IDEmpresa.'\')" title="Descanso Laborado" style="padding: 6px; margin-left: 17px; position: absolute; margin-top: -25px;"></label>
-                          </p>
-                          <input type="text" '.$bloquear.' value="'.$_valorC.'" id="'.$row['codigo'].$_FechaCol.'" onkeyup="ConsultaFrente('.$row['codigo'].', \''.$_FechaCol.'\', \''.$row['codigo'].$_FechaCol.'\')">
-                        </td>
-                       ';
+                          </p>';
+            
+            if($_tipoNom == 1){
+              $_cuerpo .= '<input type="text" '.$bloquear.' value="'.$_valorC.'" id="'.$row['codigo'].$_FechaCol.'" onkeyup="ConsultaFrente('.$row['codigo'].', \''.$_FechaCol.'\', \''.$row['codigo'].$_FechaCol.'\')">';
+            }else {
+              $_cuerpo .= $row[$value];
+            }            
+            
+            $_cuerpo .= '</td>';
           }else{
             $_cuerpo .= '<td class="Aline" style="height: 74px;">
                           <p style="padding: 0; margin: 0; text-align: center;">
                             <input type="checkbox" '.$bloquear.' id="'.$row['codigo'].$_FechaCol.'DL" />
                             <label for="'.$row['codigo'].$_FechaCol.'DL" onclick="DLaborados(\''.$row['codigo'].'\', \''.$_FechaCol.'\', \''.$centro.'\', \''.$_periodo.'\', \''.$_tipoNom.'\', \''.$IDEmpresa.'\')" title="Descanso Laborado" style="padding: 6px; margin-left: 17px; position: absolute; margin-top: -25px;"></label>
-                          </p>
-                          <input type="text" '.$bloquear.' value="'.$_valorC.'" id="'.$row['codigo'].$_FechaCol.'" onkeyup="ConsultaFrente('.$row['codigo'].', \''.$_FechaCol.'\', \''.$row['codigo'].$_FechaCol.'\')">
-                        </td>
-                       ';
+                          </p>';
+            if($_tipoNom == 1){
+              $_cuerpo .= '<input type="text" '.$bloquear.' value="'.$_valorC.'" id="'.$row['codigo'].$_FechaCol.'" onkeyup="ConsultaFrente('.$row['codigo'].', \''.$_FechaCol.'\', \''.$row['codigo'].$_FechaCol.'\')">'; 
+            }else {
+              $_cuerpo .= $row[$value];
+            }            
+            
+            $_cuerpo .= '</td>';
           }
         }
 

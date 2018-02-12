@@ -188,6 +188,9 @@ if($_POST || $_FILES) {
     case 'GenerarExcel':
       require_once('consultas/ajax/GenerarExcel.php');
     break;
+    case 'GuardarRegistro':
+      require_once('consultas/ajax/GuardarRegistro.php');
+    break;
     default:
       header('location: index.php');
     break;

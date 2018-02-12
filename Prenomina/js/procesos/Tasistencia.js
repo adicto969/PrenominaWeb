@@ -371,3 +371,28 @@ function GenerarExcel(){
     }, 1500);
   });
 }
+
+function GuardarRegistro(codigo, fecha){
+  var Valor = $("#"+codigo+fecha).val();
+  $("#"+codigo+fecha).val(Valor.toUpperCase());
+  var periodo = $("#periodo").val();
+  var tn = $("#tiponom").val();
+  if(Valor != ""){
+    $.ajax({
+      method: "POST",
+      url: "ajax.php?modo=GuardarRegistro",
+      data: "codigo="+codigo+"&valor="+Valor+"&fecha="+fecha+"&periodo="+periodo+"&tn="+tn
+    }).done(function(datos){
+      try {
+          var jsonDatos = JSON.parse(datos.replace(/\ufeff/g, ''));
+          if(jsonDatos.error == 1){
+            $("#"+codigo+fecha).css("background-color", "#ff4646");
+          }else {
+            $("#"+codigo+fecha).css("background-color", "rgb(78, 212, 78)");
+          }
+      } catch (e) {
+        $("#"+codigo+fecha).css("background-color", "#ff4646");
+      }
+    });
+  }
+}

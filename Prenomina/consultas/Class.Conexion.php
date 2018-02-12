@@ -62,7 +62,13 @@ class ConexionSRV
  {
    $this->enlace = sqlsrv_connect( S_DB_SERVER, $this->conexionInfo);
      if( $this->enlace === false ) {
-        die( print_r( sqlsrv_errors(), true));
+       foreach(sqlsrv_errors() as $error){
+         echo "<h1 style='text-align: center'>OCURRIO UN ERROR EN LA CONEXION CON LA BD.</h1><br/>";
+         echo "SQLSTATE: ".$error['SQLSTATE']."<br/>";
+         echo "CODIGO: ".$error['code']."<br/>";
+         echo "MENSAJE: ".$error['message']."<br/>";
+       }
+        //die( print_r( sqlsrv_errors(), true));
         exit();
      }
  }

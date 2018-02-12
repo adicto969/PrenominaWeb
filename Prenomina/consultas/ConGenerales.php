@@ -4,6 +4,7 @@
 #Consulta MYSQLI
 if(isset($_SESSION['IDUser'])){
   if(isset($_SESSION['IDEmpresa'])){
+        
     $IDEmpresa = $_SESSION['IDEmpresa'];
     $centro = $_SESSION['centro'];
     $DB = $_SESSION['DB'];
